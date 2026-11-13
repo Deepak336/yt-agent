@@ -135,6 +135,39 @@ claude --continue         # resume the previous conversation
 
 ---
 
+## 6. Shut the box down gracefully (teardown)
+
+A normal `shutdown` flushes the exfat NVMe cleanly, so teardown is light — just stop
+the services, then power off. (Leave the USB-A SSD plugged in; shutting down first
+makes it safe to handle.)
+
+```bash
+cd ~/yt-agent
+./scripts/comfy.sh stop                 # stop ComfyUI (SDXL/LTX)
+pkill -f "python studio.py"             # stop the Studio UI
+#   if it lingers: pkill -9 -f "python studio.py"
+./scripts/vnc.sh stop                   # optional, only if VNC was running
+#   Ollama is a system service — leave it; it auto-starts next boot.
+
+sudo shutdown -h now                    # graceful; exfat flushes, SSD safe to unplug
+```
+
+Before shutting down, make sure **no generation job is mid-run** (the UI/terminal is
+idle) — an interrupted job is lost but harmless.
+
+### Bring it back up after reboot
+```bash
+lsblk | grep -E 'sd|nvme'               # confirm the ~931G exfat SSD is back
+mount | grep /mnt/nvme                   # it auto-mounts via fstab (nofail)
+#   if absent: replug SSD to a USB-A port, then: sudo ./scripts/powercut_recover.sh
+
+screen -S yt                             # survive SSH drops (foreground launcher)
+cd ~/yt-agent && ./scripts/studio.sh     # starts Ollama + ComfyUI + UI -> :7860
+#   (optional, full speed) sudo nvpmodel -m 0 && sudo jetson_clocks
+```
+
+---
+
 ## Cheat sheet
 
 | I want to… | Command |
@@ -145,5 +178,6 @@ claude --continue         # resume the previous conversation
 | Watch output with sound | `./scripts/preview.sh /mnt/nvme/yt-agent/output` → `:8000` |
 | Start/stop ComfyUI | `./scripts/comfy.sh start` / `stop` |
 | After a power cut | `lsblk` → replug SSD (USB-A) if absent → `sudo ./scripts/powercut_recover.sh` |
+| Shut down gracefully | `./scripts/comfy.sh stop && pkill -f "python studio.py"` → `sudo shutdown -h now` |
 | Upload (dry run) | `python3 -m publish.publish <file>.mp4` |
 | Upload (for real) | `python3 -m publish.publish <file>.mp4 --yes` |
