@@ -1,0 +1,56 @@
+# yt-agent — full stack as 3 services.
+#   ollama   : LLM server (GPU)          -> qwen2.5:14b etc.
+#   comfyui  : SDXL + LTX image/video (GPU)
+#   app      : the pipeline + Studio UI (CPU) — Piper/Whisper/ffmpeg/matplotlib
+#
+# The app talks to the other two over the compose network by SERVICE NAME
+# (ollama:11434, comfyui:8188). Models and finished videos live on the host NVMe
+# (mounted), NOT baked into images, so images stay portable and small.
+#
+# PREREQUISITES on the host (see README.md): NVIDIA Container Toolkit installed +
+# `docker` runtime configured, and Docker's data-root moved to the NVMe (eMMC is
+# too small). Edit paths in .env (copy from .env.example).
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: yt-ollama
+    gpus: all                      # requires NVIDIA Container Toolkit on the host
+    volumes:
+      - ${OLLAMA_MODELS:-ollama_models}:/root/.ollama
+    ports:
+      - "11434:11434"              # optional: expose for host debugging
+    restart: unless-stopped
+
+  comfyui:
+    build:
+      context: .                   # this folder (clones ComfyUI; copies extra_model_paths.yaml)
+      dockerfile: Dockerfile.comfyui
+      args:
+        TORCH_INDEX: ${TORCH_INDEX:-https://download.pytorch.org/whl/cu130}
+    container_name: yt-comfyui
+    gpus: all
+    volumes:
+      - ${NVME_ROOT:-/mnt/nvme/yt-agent}:/mnt/nvme/yt-agent   # models + shared output
+    ports:
+      - "8188:8188"                # optional: open the ComfyUI GUI from the LAN
+    restart: unless-stopped
+
+  app:
+    build:
+      context: ..                  # repo root (this file lives in <repo>/docker/)
+      dockerfile: docker/Dockerfile.app
+    container_name: yt-app
+    depends_on: [ollama, comfyui]
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+      COMFYUI_URL: "http://comfyui:8188"
+      COMFY_OUTPUT_DIR: "/mnt/nvme/yt-agent/output"
+    volumes:
+      - ${NVME_ROOT:-/mnt/nvme/yt-agent}:/mnt/nvme/yt-agent   # output/work + read ComfyUI gens
+    ports:
+      - "7860:7860"                # Studio UI -> http://<host>:7860
+    restart: unless-stopped
+
+volumes:
+  ollama_models:

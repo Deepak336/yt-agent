@@ -1,0 +1,42 @@
+# Channel profile: finance / market & personal-finance explainers.
+# Loaded by common.load_channel(); every field has a built-in fallback in code,
+# so missing keys are safe. ORIGINAL content only (re-express, never quote).
+name: finance
+niche: "personal & market finance explainers derived from finance books"
+
+# System prompt for ingest (concept extraction).
+concept_system: >
+  You are a finance/economics educator. You read source material only to LEARN the
+  idea, then explain it entirely in your OWN words. You NEVER quote, copy, or closely
+  paraphrase sentences from the source. Output only facts and concepts, which are not
+  copyrightable.
+
+# System prompt for scripting.
+script_system: >
+  You write punchy, accurate short-form narration for a finance/economics explainer
+  channel. Conversational, concrete, zero fluff. You use ONLY your own words. You never
+  give regulated financial advice — you educate. No emojis, no stage directions, no
+  hashtags: output is spoken aloud verbatim.
+
+script_mode: explainer          # explainer | story
+
+tts_voice: en_US-lessac-medium  # Piper voice (must exist under models/piper/)
+
+# SDXL still style (no text in image — SDXL can't render words).
+image_style: >
+  clean modern vector-style illustration, finance/economics theme, deep navy
+  background, soft glowing blue and gold accents, minimal, no text, no words, no
+  letters, high quality
+image_negative: "text, words, letters, numbers, watermark, logo, blurry, low quality, deformed, ugly"
+
+# LTX clip style suffix (opt-in B-roll).
+clip_style: "cinematic, smooth camera motion, high detail, finance/economics theme"
+
+# Metadata framing.
+metadata_framing: "educational, no financial advice, your own words"
+default_hashtags: ["#finance", "#economics", "#explainer", "#money", "#learn"]
+category: Education
+
+# Aspect ratios (keys must match video.aspects in config.yaml).
+shorts_aspect: "9:16"
+long_aspect: "16:9"

@@ -1,0 +1,44 @@
+# yt-agent pipeline config — single source of truth
+# Methodology (from yt-agent-context.md):
+#  - staged models (never all heavy at once)
+#  - ORIGINAL content: LLM re-expresses concepts, never verbatim book text
+#  - human approval gate before any publish
+
+models:
+  llm: "qwen2.5:14b"          # Ollama tag; concept extraction + scripting + metadata
+  llm_fallback: "llama3.1:8b"  # faster fallback (not pulled yet)
+  tts_voice: "en_US-lessac-medium"   # Piper voice (auto-downloaded on first use)
+  whisper_model: "medium"      # faster-whisper; CPU in Phase 1
+  whisper_device: "cpu"        # Phase 1 = cpu (avoids ctranslate2/CUDA-on-Jetson setup)
+
+script:
+  target_seconds: [45, 90]     # Short length window
+  words_per_minute: 150        # pacing estimate for length control
+  min_words_per_beat: 35       # long-form floor per beat (keeps 3-5min videos from running short)
+
+video:
+  width: 1080
+  height: 1920                 # 9:16 vertical Short (default; orchestrator overrides per aspect)
+  fps: 30
+  # Aspect presets [width, height]. Shorts use 9:16; long-form (>120s) uses the
+  # channel profile's long_aspect (default 16:9). Keys match channel *_aspect fields.
+  aspects:
+    "9:16": [1080, 1920]
+    "16:9": [1920, 1080]
+  # NVENC (h264_nvenc) is present in the system ffmpeg but its encode session
+  # fails on this Tegra device ("no capable devices"); we use software libx264
+  # via the PyPI-bundled ffmpeg. Revisit NVENC (nvv4l2 path) as a Phase 2+ speedup.
+  encoder: "libx264"
+  bitrate: "8M"               # used only if encoder is NVENC
+  bg_color: "0x0B132B"         # dark background for animated-text Phase 1
+  font_color: "white"
+  music: null                  # optional bed track path
+
+paths:
+  pdfs: "data/pdfs"
+  work: "data/work"            # per-job intermediates (voice.wav, captions.srt, frames)
+  output: "data/output"        # finished short.mp4 + metadata.json
+
+publish:
+  approval_gate: true          # MUST stay true until agent is proven
+  max_uploads_per_day: 6       # YouTube Data API quota ceiling (10k units/day)

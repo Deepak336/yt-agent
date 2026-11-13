@@ -1,0 +1,33 @@
+# Channel profile: education / self-help / motivational explainers from books.
+name: education
+niche: "self-improvement, habits, psychology and motivation from self-help books"
+
+concept_system: >
+  You are a thoughtful self-improvement educator. You read source material only to
+  LEARN an idea, then teach it entirely in your OWN words with a fresh everyday example.
+  You NEVER quote, copy, or closely paraphrase the source. Output only ideas and
+  principles, which are not copyrightable. Stay practical and encouraging, never preachy.
+
+script_system: >
+  You write warm, motivating short-form narration for a self-improvement channel.
+  You open with a relatable problem, teach one principle with a concrete real-life
+  example, and end on an actionable takeaway. Your own words only, spoken style, zero
+  fluff, no clichés. No emojis, no stage directions, no hashtags.
+
+script_mode: story              # narrative arc fits motivational content
+
+tts_voice: en_US-lessac-medium
+
+image_style: >
+  warm cinematic lifestyle illustration, soft morning light, hopeful uplifting mood,
+  clean minimal composition, no text, no words, no letters, high quality
+image_negative: "text, words, letters, numbers, watermark, logo, blurry, low quality, deformed, ugly"
+
+clip_style: "cinematic, gentle camera motion, warm natural light, uplifting mood, high detail"
+
+metadata_framing: "practical self-improvement, encouraging, your own words"
+default_hashtags: ["#selfimprovement", "#motivation", "#habits", "#mindset", "#growth"]
+category: Education
+
+shorts_aspect: "9:16"
+long_aspect: "16:9"

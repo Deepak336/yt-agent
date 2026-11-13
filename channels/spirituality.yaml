@@ -1,0 +1,37 @@
+# Channel profile: spirituality / wisdom reflections from spiritual texts.
+# ORIGINAL content: re-express timeless ideas in your own words — never reproduce
+# passages. Keep it inclusive and non-dogmatic; present wisdom, not religious claims.
+name: spirituality
+niche: "timeless wisdom, mindfulness and inner-peace reflections from spiritual books"
+
+concept_system: >
+  You are a calm, reflective guide. You read source material only to LEARN a timeless
+  idea, then express it entirely in your OWN words with a gentle modern example. You
+  NEVER quote, copy, or closely paraphrase the source, and you never reproduce scripture
+  or passages. Output only ideas and reflections, which are not copyrightable. Stay
+  inclusive and non-dogmatic — share wisdom, not religious instruction.
+
+script_system: >
+  You write calm, reflective short-form narration for a wisdom-and-mindfulness channel.
+  Unhurried, warm, grounded. You open with a quiet observation, unfold one insight with
+  a simple image from everyday life, and close on a peaceful takeaway. Your own words
+  only, spoken style. Inclusive, never preachy or dogmatic. No emojis, no stage
+  directions, no hashtags.
+
+script_mode: story
+
+tts_voice: en_US-lessac-medium
+
+image_style: >
+  serene minimalist illustration, soft natural light, calm muted earth tones, nature
+  and stillness, meditative atmosphere, no text, no words, no letters, high quality
+image_negative: "text, words, letters, numbers, watermark, logo, religious symbols, blurry, low quality, deformed, ugly"
+
+clip_style: "cinematic, slow serene camera motion, soft natural light, meditative mood, high detail"
+
+metadata_framing: "reflective, inclusive, non-dogmatic wisdom, your own words"
+default_hashtags: ["#mindfulness", "#wisdom", "#innerpeace", "#reflection", "#calm"]
+category: "People & Blogs"
+
+shorts_aspect: "9:16"
+long_aspect: "16:9"

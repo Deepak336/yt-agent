@@ -1,0 +1,11 @@
+# Keep the app image small: these are re-created at build (piper) or mounted (models/data).
+.venv/
+**/__pycache__/
+**/*.pyc
+models/
+data/
+*.log
+*.status
+.git/
+ltx-download.*
+t5-download.*

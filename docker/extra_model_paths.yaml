@@ -1,0 +1,11 @@
+# ComfyUI model paths inside the container — NVMe is mounted at the same path.
+nvme:
+    base_path: /mnt/nvme/yt-agent/comfyui-models/
+    checkpoints: checkpoints
+    vae: vae
+    loras: loras
+    clip: clip
+    unet: unet
+    diffusion_models: diffusion_models
+    text_encoders: text_encoders
+    vae_approx: vae_approx

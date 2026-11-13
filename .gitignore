@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Data & artifacts (large / regenerated)
+data/pdfs/*
+data/work/*
+data/output/*
+models/*
+!data/pdfs/.gitkeep
+!data/work/.gitkeep
+!data/output/.gitkeep
+!models/.gitkeep
+
+# Secrets
+*.env
+client_secret*.json
+token*.json
+
+# Runtime logs / status (regenerated)
+*.log
+*.status

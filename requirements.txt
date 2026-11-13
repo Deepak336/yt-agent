@@ -1,0 +1,15 @@
+# Phase 1 — minimal local pipeline (Python 3.12 / JetPack 7 / ARM64)
+ollama>=0.3.0          # LLM client (talks to local ollama daemon)
+pypdf>=4.0            # PDF text extraction (ingest)
+faster-whisper>=1.0   # word-timed captions (STT) — CPU in Phase 1
+srt>=3.5             # .srt read/write helper
+PyYAML>=6.0           # config
+matplotlib>=3.8          # LLM-driven illustrative charts
+pillow>=10.0          # frame rendering (title + captions + background)
+numpy>=1.26           # RGB->yuv420p conversion for the stripped Jetson ffmpeg
+imageio-ffmpeg>=0.5   # bundles a full static ffmpeg (libx264+aac) — see common.ffmpeg_bin()
+gradio>=5             # studio.py web UI (interactive draft/refine/preview)
+# NOTE: PyTorch + ComfyUI live in a SEPARATE venv (~/comfyui-venv) for SDXL/LTX,
+# not in this venv. See yt-agent-context.md §14.
+# Piper TTS is installed as a standalone aarch64 binary via scripts/setup_piper.sh
+# (the pip piper-tts wheel is unreliable on ARM/py3.12).

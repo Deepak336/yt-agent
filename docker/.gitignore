@@ -1,0 +1,2 @@
+# local overrides / secrets — never commit; env.example IS committed as the template
+.env

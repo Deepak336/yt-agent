@@ -1,0 +1,6 @@
+# Phase 3 (YouTube upload) deps — install only when you're ready to publish:
+#   ~/yt-agent/.venv/bin/pip install -r publish/requirements.txt
+# Kept out of the core requirements.txt so the local pipeline runs without them.
+google-api-python-client
+google-auth-oauthlib
+google-auth-httplib2
